@@ -1,21 +1,21 @@
 import ReleaseTransformations._
 
 lazy val baseSettings = Seq(
-  scalaVersion := "2.12.12",
+  scalaVersion := "2.12.13",
   organization := "com.gu.play-secret-rotation",
   licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   scalacOptions ++= Seq("-deprecation", "-Xlint", "-unchecked")
 )
 
-lazy val crossCompileScala213 = crossScalaVersions := Seq(scalaVersion.value, "2.13.3")
+lazy val crossCompileScala213 = crossScalaVersions := Seq(scalaVersion.value, "2.13.6")
 
 lazy val core =
   project.settings(crossCompileScala213, baseSettings).settings(
     libraryDependencies ++= Seq(
       "com.github.blemale" %% "scaffeine" % "3.1.0",
-      "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
-      "org.threeten" % "threeten-extra" % "1.5.0",
-      "org.scalatest" %% "scalatest" % "3.0.8" % "test"
+      "com.typesafe.scala-logging" %% "scala-logging" % "3.9.3",
+      "org.threeten" % "threeten-extra" % "1.6.0",
+      "org.scalatest" %% "scalatest" % "3.2.9" % Test
     ),
   )
 
@@ -23,8 +23,8 @@ lazy val `aws-parameterstore-secret-supplier-base` =
   project.in(file("aws-parameterstore/secret-supplier")).settings(crossCompileScala213, baseSettings).dependsOn(core)
 
 val awsSdkForVersion = Map(
-  1 -> "com.amazonaws" % "aws-java-sdk-ssm" % "1.11.845",
-  2 -> "software.amazon.awssdk" % "ssm" % "2.14.1"
+  1 -> "com.amazonaws" % "aws-java-sdk-ssm" % "1.11.1020",
+  2 -> "software.amazon.awssdk" % "ssm" % "2.16.64"
 )
 
 def awsParameterStoreWithSdkVersion(version: Int)=
@@ -49,8 +49,8 @@ lazy val `secret-generator` = project.settings(crossCompileScala213, baseSetting
 
 val exactPlayVersions = Map(
   "26" -> "2.6.25",
-  "27" -> "2.7.5",
-  "28" -> "2.8.2"
+  "27" -> "2.7.9",
+  "28" -> "2.8.8"
 )
 
 def playVersion(majorMinorVersion: String)= {
@@ -97,7 +97,7 @@ lazy val `play-secret-rotation-root` = (project in file("."))
   )
 )
 
-assemblyMergeStrategy in assembly := {
+assembly / assemblyMergeStrategy := {
   {
     case PathList("META-INF", xs @ _*) => MergeStrategy.discard
     case x => MergeStrategy.first
