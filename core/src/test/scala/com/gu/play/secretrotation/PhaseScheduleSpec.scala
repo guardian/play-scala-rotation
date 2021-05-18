@@ -1,11 +1,12 @@
 package com.gu.play.secretrotation
 
+import com.gu.play.secretrotation.DualSecretTransition.Phase.{Completed, InProgress, Upcoming}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+
 import java.time.Instant
 
-import com.gu.play.secretrotation.DualSecretTransition.Phase.{Completed, InProgress, Upcoming}
-import org.scalatest._
-
-class PhaseScheduleSpec extends FlatSpec with Matchers {
+class PhaseScheduleSpec extends AnyFlatSpec with Matchers {
   "A phase schedule" should "return the correct phase for a given time" in {
     val startOfOverlap = Instant.now()
     val endOfOverlap = startOfOverlap.plusSeconds(100)
